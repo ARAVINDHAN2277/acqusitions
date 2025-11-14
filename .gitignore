@@ -1,0 +1,16 @@
+# Node
+node_modules
+
+# Security
+.env
+
+# IDE files
+.idea/
+/shelf/
+/workspace.xml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
+
+# Logs
+logs
