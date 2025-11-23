@@ -3,6 +3,10 @@ node_modules
 
 # Security
 .env
+.env.development
+.env.production
+.env.local
+.env.*.local
 
 # IDE files
 .idea/
@@ -13,4 +17,4 @@ node_modules
 /dataSources.local.xml
 
 # Logs
-logs
+logs.neon_local/

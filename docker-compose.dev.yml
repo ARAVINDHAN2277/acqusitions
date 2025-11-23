@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Neon Local proxy for development
+  neon-local:
+    image: neondatabase/neon_local:latest
+    container_name: neon-local-dev
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env.development
+
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: acquisitions-dev
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.development
+    volumes:
+      - .:/app
+      - /app/node_modules  # Prevent overwriting node_modules
+    depends_on:
+      neon-local:
+        condition: service_healthy
+    networks:
+      - app-network
+    command: npm run dev
+
+networks:
+  app-network:
+    driver: bridge
